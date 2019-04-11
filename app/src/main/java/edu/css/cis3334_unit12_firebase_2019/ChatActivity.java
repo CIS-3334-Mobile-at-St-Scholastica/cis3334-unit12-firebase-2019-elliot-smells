@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ChatActivity extends AppCompatActivity {
 
     Button btnPost;
@@ -30,6 +33,11 @@ public class ChatActivity extends AppCompatActivity {
                 String msgText = etMessage.getText().toString();
                 etMessage.setText("");           // clear out the message text box to be ready for the next message
 
+                // Write a message to the database
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("message");
+
+                myRef.setValue(msgText);
 
                 // This does not push message to firebase yet...
                 //    The next line should really be in the Firebase onDataChange() method

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "464774601021",
+    "firebase_url": "https://cis3334-unit12-elliot-firebase.firebaseio.com",
+    "project_id": "cis3334-unit12-elliot-firebase",
+    "storage_bucket": "cis3334-unit12-elliot-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464774601021:android:f4188d76291ddc21",
+        "android_client_info": {
+          "package_name": "edu.css.cis3334_unit12_firebase_2019"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464774601021-fl5gu292pea0hjmlgm9q2o0fcgjsecnl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.css.cis3334_unit12_firebase_2019",
+            "certificate_hash": "f78f5b8ef128208871d54a160ce34f6a8f094740"
+          }
+        },
+        {
+          "client_id": "464774601021-s3p5d275ddoktojujqugcskfsvq1gq53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXQykVfHutBZ1YA5AcZwqg3wnbVr4Evfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464774601021-s3p5d275ddoktojujqugcskfsvq1gq53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
