@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    private String accountEmail;
 
     /**
      * onStart gets current user from Firebase, and sees if user is currently
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null) {
+            accountEmail = account.getEmail();
             updateUI(account.toString());
         }
     }
@@ -86,14 +88,24 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Normal login
+                if(fieldsFilled()){
                 signIn(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                }
+                else {
+                    updateUI("You must enter an email and a password.");
+                }
             }
         });
 
         buttonCreateLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Create account
-                createAccount(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                if (fieldsFilled()) {
+                    createAccount(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                }
+                else {
+                    updateUI("You must enter an email and a password.");
+                }
             }
         });
 
@@ -113,10 +125,15 @@ public class MainActivity extends AppCompatActivity {
 
         buttonStartChat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Starting chat
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                startActivity(intent);
-
+                if(accountEmail != null && !accountEmail.isEmpty()) {
+                    //Starting chat
+                    Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                    intent.putExtra("email", accountEmail);
+                    startActivity(intent);
+                }
+                else {
+                    updateUI(("Please login"));
+                }
             }
         });
 
@@ -133,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Creates normal user
-     * @param email
-     * @param password
+     * @param email email of user
+     * @param password password of user
      */
     private void createAccount(String email, String password) {
 
@@ -156,6 +173,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Sign in as user if correct info
+     * @param email value from email field
+     * @param password value from password field
+     */
     private void signIn(String email, String password){
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -166,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user.toString());
+                            accountEmail = user.getEmail();
                         } else {
                             // If sign in fails, display a message to the user.
                             updateUI("Authentication failed");
@@ -177,18 +200,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sign out currently logged in user
+     */
     private void signOut () {
 
         mAuth.signOut();
+        //mGoogleSignInClient.signOut();
         updateUI("Signed out");
+        accountEmail = "";
     }
 
+    /**
+     * Open Google Account Login intent
+     */
     private void googleSignIn() {
 
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    /**
+     * Get results of request and tries to sign into Google account if result
+     * @param requestCode request code
+     * @param resultCode resulting code
+     * @param data data returned
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -203,11 +240,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sign into Google account acount
+     * @param completedTask Sign in task
+     */
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
+            accountEmail = account.getEmail();
             updateUI(account.toString());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -215,10 +257,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Update status with parameter string
+     * @param msg string to set status to
+     */
     private void updateUI(String msg){
         if(msg != null) {
             textViewStatus.setText(msg);
         }
+    }
+
+    /**
+     * Check if email and password fields have been filled
+     * @return true if both filled. false if one or both not filled
+     */
+    private boolean fieldsFilled(){
+        return !editTextEmail.getText().toString().isEmpty() &&
+                !editTextPassword.getText().toString().isEmpty();
     }
 
 
