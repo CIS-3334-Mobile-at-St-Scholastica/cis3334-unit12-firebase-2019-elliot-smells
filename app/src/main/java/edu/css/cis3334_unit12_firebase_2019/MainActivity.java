@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     private void signOut () {
 
         mAuth.signOut();
-        //mGoogleSignInClient.signOut();
+        mGoogleSignInClient.signOut();
         updateUI("Signed out");
         accountEmail = "";
     }
