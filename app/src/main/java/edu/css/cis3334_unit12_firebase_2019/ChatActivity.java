@@ -63,7 +63,7 @@ public class ChatActivity extends AppCompatActivity {
                         tvMsgList.setText("");
                         for(DataSnapshot chatSnapshot : dataSnapshot.getChildren()){
                             ChatMessage value = chatSnapshot.getValue(ChatMessage.class);
-                            tvMsgList.append("\n" + value.getMessage());
+                            tvMsgList.append("\n" + value.getEmail() + " says: " + value.getMessage());
                         }
                     }
 

@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSignOut = (Button) findViewById(R.id.buttonSignOut);
         buttonStartChat = findViewById(R.id.buttonStartChat);
 
+        //Login Button
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Normal login
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Create Account Button
         buttonCreateLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Create account
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Sign Into Google Button
         buttonGoogleLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Google login
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Sign Out Button
         buttonSignOut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Log out
@@ -123,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Start Chat Button
         buttonStartChat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(accountEmail != null && !accountEmail.isEmpty()) {
@@ -194,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                             updateUI("Authentication failed");
                         }
 
-                        // ...
                     }
                 });
 
@@ -205,9 +209,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void signOut () {
 
+        //Normal account sign out
         mAuth.signOut();
+        //Google account sign out
         mGoogleSignInClient.signOut();
         updateUI("Signed out");
+        //Can't open chat without non-empty accountEmail
         accountEmail = "";
     }
 
